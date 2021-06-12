@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mongo-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mongo-api
+    spec:
+      containers:
+      - name: mongo-api
+        image: mongo-api
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8600
+      dnsPolicy: Default

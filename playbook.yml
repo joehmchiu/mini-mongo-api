@@ -1,0 +1,21 @@
+- name: test 
+  hosts: mac
+  tasks: 
+  - shell: echo "[$(date +'%F %T')] cleanup artifacts" >> "{{logfile}}"
+  - name: remove the artifacts
+    file:
+      path: "{{item}}"
+      state: absent
+    with_items:
+      - "{{tmp}}/{{url}}"
+      - "{{tmp}}/{{dir}}"
+  - name: copy script to mac
+    copy:
+      src: "{{root}}/{{dir}}"
+      dest: "{{tmp}}"
+      mode: '0755'
+  - name: build mongo api image and deploy to the kubernetes cluster
+    shell: | 
+      cd {{tmp}}/{{dir}}
+      /usr/bin/nohup {{tmp}}/{{dir}}/{{run}} {{tmp}}/{{dir}} {{logfile}}
+

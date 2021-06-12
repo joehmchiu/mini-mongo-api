@@ -1,0 +1,15 @@
+# devops: hello world
+
+jobs:
+- job: Linux
+  pool: AZP-Pool
+  steps:
+  - script: |
+      dir
+      pwd
+      echo '$(Agent.BuildDirectory)'
+      echo '$(System.DefaultWorkingDirectory)'
+    displayName: display the file structure
+  - script: |
+      ./go.sh
+    displayName: run playbook to deploy mini mongo api
